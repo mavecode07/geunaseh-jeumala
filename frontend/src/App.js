@@ -145,6 +145,49 @@ const CustomCursor = () => {
   );
 };
 
+// Animated Logo Component
+const AnimatedLogo = ({ size = "md", className = "" }) => {
+  const sizes = {
+    sm: "w-10 h-10",
+    md: "w-14 h-14",
+    lg: "w-24 h-24",
+    xl: "w-32 h-32",
+    hero: "w-64 h-64"
+  };
+  
+  return (
+    <div className={`relative ${sizes[size]} ${className}`}>
+      {/* Outer glow ring */}
+      <motion.div 
+        className="absolute inset-[-4px] rounded-full"
+        style={{
+          background: "conic-gradient(from 0deg, transparent, rgba(0,191,255,0.4), transparent, rgba(0,255,136,0.3), transparent)"
+        }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+      />
+      {/* Inner ring */}
+      <motion.div 
+        className="absolute inset-[-2px] rounded-full border border-cyan-400/30"
+        animate={{ scale: [1, 1.02, 1], opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* Logo container */}
+      <div className="relative w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-[#012a3a] to-[#013220] p-1">
+        <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-[#013220]/50 to-[#005f73]/50 flex items-center justify-center">
+          <img 
+            src={LOGO_URL} 
+            alt="Logo" 
+            className="w-[85%] h-[85%] object-contain"
+          />
+        </div>
+      </div>
+      {/* Glow effect */}
+      <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-xl -z-10" />
+    </div>
+  );
+};
+
 // Navigation
 const PublicNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -157,95 +200,118 @@ const PublicNavbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  const leftLinks = [
     { path: "/", label: "Beranda" },
     { path: "/about", label: "Tentang" },
-    { path: "/philosophy", label: "Filosofi" },
     { path: "/events", label: "Event" },
+  ];
+  
+  const rightLinks = [
     { path: "/articles", label: "Artikel" },
     { path: "/gallery", label: "Galeri" },
-    { path: "/documentation", label: "Dokumentasi" },
+    { path: "/documentation", label: "Lainnya" },
   ];
 
   return (
     <motion.nav 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-transparent"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 pt-4"
     >
       <div className="container-custom">
-        <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={LOGO_URL} alt="Logo" className="h-12 w-12 object-contain" />
-            <span className={`font-bold text-lg ${scrolled ? "text-gray-800" : "text-white"}`}>
-              Geunaseh Jeumala
-            </span>
-          </Link>
+        {/* Floating Navbar */}
+        <div className={`mx-auto max-w-4xl transition-all duration-500 ${
+          scrolled 
+            ? "bg-[#0a1a1f]/95 backdrop-blur-xl shadow-2xl shadow-black/20" 
+            : "bg-[#0a1a1f]/80 backdrop-blur-md"
+        } rounded-full px-6 py-2`}>
+          <div className="flex items-center justify-center gap-4">
+            {/* Left Links */}
+            <div className="hidden lg:flex items-center gap-6">
+              {leftLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`text-sm font-medium transition-all duration-300 hover:text-cyan-400 ${
+                    location.pathname === link.path
+                      ? "text-cyan-400"
+                      : "text-white/80"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-emerald-500 ${
-                  location.pathname === link.path
-                    ? "text-emerald-500"
-                    : scrolled ? "text-gray-700" : "text-white"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link to="/admin">
-              <Button size="sm" className="gradient-primary text-white hover:opacity-90">
-                Admin
-              </Button>
+            {/* Center Logo */}
+            <Link to="/" className="relative mx-4">
+              <AnimatedLogo size="md" />
             </Link>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? (
-              <X className={scrolled ? "text-gray-800" : "text-white"} />
-            ) : (
-              <Menu className={scrolled ? "text-gray-800" : "text-white"} />
-            )}
-          </button>
+            {/* Right Links */}
+            <div className="hidden lg:flex items-center gap-6">
+              {rightLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`text-sm font-medium transition-all duration-300 hover:text-cyan-400 ${
+                    location.pathname === link.path
+                      ? "text-cyan-400"
+                      : "text-white/80"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden text-white ml-auto"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
+
+        {/* Admin Button - Floating right */}
+        <Link to="/admin" className="hidden lg:block fixed top-6 right-6">
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="w-10 h-10 rounded-full bg-[#0a1a1f]/80 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-cyan-400 transition-colors border border-white/10"
+          >
+            <Users size={18} />
+          </motion.div>
+        </Link>
 
         {/* Mobile Menu */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-white rounded-lg shadow-lg mt-2 overflow-hidden"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="lg:hidden mt-4 mx-4 bg-[#0a1a1f]/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/10"
             >
               <div className="p-4 space-y-2">
-                {navLinks.map((link) => (
+                {[...leftLinks, ...rightLinks].map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-2 rounded-lg transition-colors ${
+                    className={`block px-4 py-3 rounded-xl transition-colors ${
                       location.pathname === link.path
-                        ? "bg-emerald-50 text-emerald-600"
-                        : "hover:bg-gray-50"
+                        ? "bg-cyan-500/20 text-cyan-400"
+                        : "text-white/80 hover:bg-white/5"
                     }`}
                   >
                     {link.label}
                   </Link>
                 ))}
                 <Link to="/admin" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full gradient-primary text-white mt-2">
-                    Admin
+                  <Button className="w-full mt-2 bg-gradient-to-r from-cyan-500 to-emerald-500 text-white">
+                    Admin Panel
                   </Button>
                 </Link>
               </div>
