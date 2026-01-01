@@ -611,8 +611,18 @@ async def get_members():
 @api_router.post("/members")
 async def create_member(name: str = Form(...), position: str = Form(""), division: str = Form(""), current_user: dict = Depends(get_current_user)):
     member = Member(name=name, position=position, division=division)
-    await db.members.insert_one(member.model_dump())
-    return member.model_dump()
+    member_dict = member.model_dump()
+    await db.members.insert_one(member_dict)
+    member_dict.pop("_id", None)
+    return member_dict
+
+@api_router.put("/members/{member_id}")
+async def update_member(member_id: str, name: str = Form(...), position: str = Form(""), division: str = Form(""), current_user: dict = Depends(get_current_user)):
+    update_dict = {"name": name, "position": position, "division": division}
+    result = await db.members.update_one({"id": member_id}, {"$set": update_dict})
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Member not found")
+    return {"success": True}
 
 @api_router.delete("/members/{member_id}")
 async def delete_member(member_id: str, current_user: dict = Depends(get_current_user)):
