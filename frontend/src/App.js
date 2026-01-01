@@ -850,24 +850,24 @@ const AboutPage = () => {
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center mb-4">
                     <Target className="text-white" size={24} />
                   </div>
-                  <CardTitle>Misi</CardTitle>
+                  <CardTitle className="text-white">Misi</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-3 text-gray-600">
+                  <ul className="space-y-3 text-white/60">
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="text-emerald-500 mt-1 flex-shrink-0" size={16} />
+                      <CheckCircle className="text-cyan-400 mt-1 flex-shrink-0" size={16} />
                       Menyelenggarakan kajian dan pendidikan untuk peningkatan ilmu
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="text-emerald-500 mt-1 flex-shrink-0" size={16} />
+                      <CheckCircle className="text-cyan-400 mt-1 flex-shrink-0" size={16} />
                       Mengembangkan potensi dan bakat anggota
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="text-emerald-500 mt-1 flex-shrink-0" size={16} />
+                      <CheckCircle className="text-cyan-400 mt-1 flex-shrink-0" size={16} />
                       Membangun solidaritas dan ukhuwah islamiyah
                     </li>
                     <li className="flex items-start gap-2">
-                      <CheckCircle className="text-emerald-500 mt-1 flex-shrink-0" size={16} />
+                      <CheckCircle className="text-cyan-400 mt-1 flex-shrink-0" size={16} />
                       Melaksanakan kegiatan sosial yang bermanfaat
                     </li>
                   </ul>
@@ -878,21 +878,21 @@ const AboutPage = () => {
 
           {/* Structure */}
           <AnimatedSection className="text-center mb-12">
-            <Badge className="mb-4">Struktur</Badge>
-            <h2 className="text-3xl font-bold">Pengurus Organisasi</h2>
+            <Badge className="mb-4 bg-amber-500/20 text-amber-400 border-amber-500/30">Struktur</Badge>
+            <h2 className="text-3xl font-bold text-white">Pengurus Organisasi</h2>
           </AnimatedSection>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {members.slice(0, 10).map((member, i) => (
               <AnimatedSection key={member.id} delay={i * 0.05}>
-                <Card className="card-hover border-0 shadow-md">
+                <Card className="card-hover border-0 bg-white/5 backdrop-blur-sm border border-white/10">
                   <CardContent className="p-4 text-center">
-                    <div className="w-16 h-16 mx-auto mb-3 rounded-full gradient-primary flex items-center justify-center text-white text-xl font-bold">
+                    <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center text-white text-xl font-bold">
                       {member.name.charAt(0)}
                     </div>
-                    <h4 className="font-medium text-sm mb-1">{member.name}</h4>
-                    <p className="text-xs text-gray-500">{member.position}</p>
-                    <Badge variant="secondary" className="text-xs mt-2">{member.division}</Badge>
+                    <h4 className="font-medium text-sm mb-1 text-white">{member.name}</h4>
+                    <p className="text-xs text-white/60">{member.position}</p>
+                    <Badge className="text-xs mt-2 bg-white/10 text-white/80">{member.division}</Badge>
                   </CardContent>
                 </Card>
               </AnimatedSection>
@@ -922,14 +922,14 @@ const PhilosophyPage = () => {
   return (
     <PageWrapper>
       {/* Hero */}
-      <section className="min-h-[60vh] gradient-hero flex items-center pt-20">
+      <section className="min-h-[60vh] bg-[#010d15] flex items-center pt-32">
         <div className="container-custom">
           <AnimatedSection className="text-center text-white">
-            <Badge className="bg-white/20 text-white mb-6">Filosofi</Badge>
+            <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6">Filosofi</Badge>
             <h1 className="text-5xl lg:text-6xl font-bold mb-6 font-['Playfair_Display']">
               {pageData?.heroTitle || "Filosofi Geunaseh Jeumala"}
             </h1>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+            <p className="text-xl text-white/60 max-w-3xl mx-auto">
               {pageData?.heroDescription || "Geunaseh Jeumala berasal dari bahasa Aceh yang bermakna 'Kasih Sayang Langit'. Nama ini mencerminkan nilai-nilai kasih sayang, ketulusan, dan keberkahan."}
             </p>
           </AnimatedSection>
@@ -937,27 +937,23 @@ const PhilosophyPage = () => {
       </section>
 
       {/* Meaning */}
-      <section className="py-24">
+      <section className="py-24 bg-gradient-to-b from-[#010d15] to-[#012a3a]">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <AnimatedSection>
-              <Badge className="mb-4">Makna Nama</Badge>
-              <h2 className="text-4xl font-bold mb-6">Geunaseh Jeumala</h2>
-              <p className="text-gray-600 mb-6 text-lg">
-                <strong>"Geunaseh"</strong> berarti kasih sayang dalam bahasa Aceh, sedangkan <strong>"Jeumala"</strong> berarti langit atau sesuatu yang tinggi dan mulia.
+              <Badge className="mb-4 bg-amber-500/20 text-amber-400 border-amber-500/30">Makna Nama</Badge>
+              <h2 className="text-4xl font-bold mb-6 text-white">Geunaseh Jeumala</h2>
+              <p className="text-white/60 mb-6 text-lg">
+                <strong className="text-cyan-400">"Geunaseh"</strong> berarti kasih sayang dalam bahasa Aceh, sedangkan <strong className="text-cyan-400">"Jeumala"</strong> berarti langit atau sesuatu yang tinggi dan mulia.
               </p>
-              <p className="text-gray-600">
+              <p className="text-white/60">
                 Gabungan keduanya melambangkan aspirasi kami untuk menyebarkan kasih sayang yang suci dan mulia, seperti kasih sayang dari langit yang menerangi bumi.
               </p>
             </AnimatedSection>
 
             <AnimatedSection delay={0.2}>
-              <div className="relative">
-                <div className="absolute inset-0 gradient-primary blur-3xl opacity-20 rounded-3xl" />
-                <img 
-                  src={LOGO_URL} 
-                  alt="Logo" 
-                  className="relative w-full max-w-md mx-auto"
+              <div className="flex justify-center">
+                <AnimatedLogo size="hero" />
                 />
               </div>
             </AnimatedSection>
