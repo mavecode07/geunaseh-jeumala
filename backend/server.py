@@ -668,6 +668,29 @@ async def get_upload(filename: str):
         raise HTTPException(status_code=404, detail="File not found")
     return FileResponse(file_path)
 
+# ==================== SETTINGS (LOGO) ====================
+
+class LogoSettings(BaseModel):
+    logoUrl: str
+
+@api_router.get("/settings/logo")
+async def get_logo():
+    """Get current logo URL"""
+    settings = await db.settings.find_one({"key": "logo"}, {"_id": 0})
+    if settings:
+        return {"logoUrl": settings.get("value", "")}
+    return {"logoUrl": ""}
+
+@api_router.post("/settings/logo")
+async def save_logo(data: LogoSettings, current_user: dict = Depends(get_current_user)):
+    """Save logo URL"""
+    await db.settings.update_one(
+        {"key": "logo"},
+        {"$set": {"key": "logo", "value": data.logoUrl, "updatedAt": datetime.now(timezone.utc).isoformat()}},
+        upsert=True
+    )
+    return {"message": "Logo saved", "logoUrl": data.logoUrl}
+
 # ==================== SEED DATA ====================
 
 @api_router.post("/seed")
