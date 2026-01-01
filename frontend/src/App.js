@@ -559,11 +559,11 @@ const HomePage = () => {
               <AnimatedSection key={i} delay={i * 0.1}>
                 <Card className="card-hover border-0 bg-white/5 backdrop-blur-sm border border-white/10">
                   <CardContent className="p-6 text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl gradient-primary flex items-center justify-center">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center">
                       <feature.icon className="text-white" size={28} />
                     </div>
-                    <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
-                    <p className="text-gray-600 text-sm">{feature.desc}</p>
+                    <h3 className="font-semibold text-lg mb-2 text-white">{feature.title}</h3>
+                    <p className="text-white/60 text-sm">{feature.desc}</p>
                   </CardContent>
                 </Card>
               </AnimatedSection>
@@ -573,15 +573,15 @@ const HomePage = () => {
       </section>
 
       {/* Events Section */}
-      <section className="py-24">
+      <section className="py-24 bg-[#012a3a]">
         <div className="container-custom">
           <AnimatedSection className="flex justify-between items-end mb-12">
             <div>
-              <Badge className="mb-4">Upcoming</Badge>
-              <h2 className="text-4xl font-bold">Event Terbaru</h2>
+              <Badge className="mb-4 bg-amber-500/20 text-amber-400 border-amber-500/30">Upcoming</Badge>
+              <h2 className="text-4xl font-bold text-white">Event Terbaru</h2>
             </div>
             <Link to="/events">
-              <Button variant="outline">
+              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10">
                 Lihat Semua <ChevronRight size={18} />
               </Button>
             </Link>
@@ -591,8 +591,8 @@ const HomePage = () => {
             {events.map((event, i) => (
               <AnimatedSection key={event.id} delay={i * 0.1}>
                 <Link to={`/events/${event.slug}`}>
-                  <Card className="card-hover overflow-hidden border-0 shadow-lg">
-                    <div className="aspect-video bg-gray-100 overflow-hidden">
+                  <Card className="card-hover overflow-hidden border-0 bg-white/5 backdrop-blur-sm border border-white/10">
+                    <div className="aspect-video bg-black/20 overflow-hidden">
                       <img 
                         src={event.bannerImage || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800"} 
                         alt={event.title}
@@ -600,9 +600,9 @@ const HomePage = () => {
                       />
                     </div>
                     <CardContent className="p-6">
-                      <Badge variant="outline" className="mb-3">{event.date}</Badge>
-                      <h3 className="font-semibold text-lg mb-2 line-clamp-2">{event.title}</h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Badge variant="outline" className="mb-3 border-cyan-500/50 text-cyan-400">{event.date}</Badge>
+                      <h3 className="font-semibold text-lg mb-2 line-clamp-2 text-white">{event.title}</h3>
+                      <div className="flex items-center gap-2 text-sm text-white/60">
                         <MapPin size={14} />
                         {event.location || "TBA"}
                       </div>
@@ -616,15 +616,15 @@ const HomePage = () => {
       </section>
 
       {/* Articles Section */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-gradient-to-b from-[#012a3a] to-[#010d15]">
         <div className="container-custom">
           <AnimatedSection className="flex justify-between items-end mb-12">
             <div>
-              <Badge className="mb-4">Blog</Badge>
-              <h2 className="text-4xl font-bold">Artikel Terbaru</h2>
+              <Badge className="mb-4 bg-emerald-500/20 text-emerald-400 border-emerald-500/30">Blog</Badge>
+              <h2 className="text-4xl font-bold text-white">Artikel Terbaru</h2>
             </div>
             <Link to="/articles">
-              <Button variant="outline">
+              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10">
                 Lihat Semua <ChevronRight size={18} />
               </Button>
             </Link>
@@ -634,8 +634,8 @@ const HomePage = () => {
             {articles.map((article, i) => (
               <AnimatedSection key={article.id} delay={i * 0.1}>
                 <Link to={`/articles/${article.slug}`}>
-                  <Card className="card-hover overflow-hidden border-0 shadow-lg h-full">
-                    <div className="aspect-video bg-gray-100 overflow-hidden">
+                  <Card className="card-hover overflow-hidden border-0 bg-white/5 backdrop-blur-sm border border-white/10 h-full">
+                    <div className="aspect-video bg-black/20 overflow-hidden">
                       <img 
                         src={article.coverImage || "https://images.unsplash.com/photo-1585036156171-384164a8c675?w=800"} 
                         alt={article.title}
@@ -645,7 +645,7 @@ const HomePage = () => {
                     <CardContent className="p-6">
                       <div className="flex gap-2 mb-3">
                         {(article.tags || []).slice(0, 2).map((tag, j) => (
-                          <Badge key={j} variant="secondary" className="text-xs">{tag}</Badge>
+                          <Badge key={j} className="text-xs bg-white/10 text-white/80">{tag}</Badge>
                         ))}
                       </div>
                       <h3 className="font-semibold text-lg mb-2 line-clamp-2">{article.title}</h3>
