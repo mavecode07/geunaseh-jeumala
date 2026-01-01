@@ -2740,45 +2740,176 @@ const AdminMembers = () => (
   />
 );
 
+// Admin Settings - Logo Edit
+const AdminSettings = () => {
+  const { token } = useAuth();
+  const toast = useToast();
+  const { logoUrl, updateLogo, DEFAULT_LOGO } = useLogo() || {};
+  const [newLogoUrl, setNewLogoUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (logoUrl) setNewLogoUrl(logoUrl);
+  }, [logoUrl]);
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await axios.post(`${API}/upload`, formData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const uploadedUrl = `${BACKEND_URL}${res.data.url}`;
+      setNewLogoUrl(uploadedUrl);
+      toast?.addToast("Logo berhasil diupload!", "success");
+    } catch (e) {
+      toast?.addToast("Gagal upload logo", "error");
+    }
+    setUploading(false);
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await axios.post(`${API}/settings/logo`, { logoUrl: newLogoUrl }, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
+      });
+      updateLogo?.(newLogoUrl);
+      toast?.addToast("Logo berhasil disimpan!", "success");
+    } catch (e) {
+      toast?.addToast("Gagal menyimpan logo", "error");
+    }
+    setSaving(false);
+  };
+
+  const handleReset = () => {
+    setNewLogoUrl(DEFAULT_LOGO);
+  };
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-6">Pengaturan Website</h1>
+      
+      <Card className="border-0 shadow-lg max-w-2xl">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <ImageIcon size={20} />
+            Logo Website
+          </CardTitle>
+          <CardDescription>Upload atau ubah logo website organisasi</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Preview */}
+          <div className="flex justify-center">
+            <div className="w-40 h-40 rounded-full bg-gradient-to-br from-[#012a3a] to-[#013220] p-2 flex items-center justify-center">
+              <img 
+                src={newLogoUrl || DEFAULT_LOGO} 
+                alt="Logo Preview" 
+                className="w-full h-full object-contain rounded-full"
+              />
+            </div>
+          </div>
+
+          {/* Upload */}
+          <div>
+            <Label>Upload Logo Baru</Label>
+            <div className="flex gap-2 mt-2">
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                accept="image/*"
+                className="hidden"
+              />
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="flex-1"
+              >
+                <Upload size={16} className="mr-2" />
+                {uploading ? "Mengupload..." : "Pilih File"}
+              </Button>
+            </div>
+          </div>
+
+          {/* URL Input */}
+          <div>
+            <Label>Atau Masukkan URL Logo</Label>
+            <Input 
+              value={newLogoUrl}
+              onChange={e => setNewLogoUrl(e.target.value)}
+              placeholder="https://example.com/logo.png"
+              className="mt-2"
+            />
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2">
+            <Button onClick={handleSave} className="gradient-primary flex-1" disabled={saving}>
+              {saving ? "Menyimpan..." : "Simpan Logo"}
+            </Button>
+            <Button type="button" variant="outline" onClick={handleReset}>
+              Reset Default
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
 // ==================== MAIN APP ====================
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <CustomCursor />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<><PublicNavbar /><HomePage /><Footer /></>} />
-          <Route path="/about" element={<><PublicNavbar /><AboutPage /><Footer /></>} />
-          <Route path="/philosophy" element={<><PublicNavbar /><PhilosophyPage /><Footer /></>} />
-          <Route path="/events" element={<><PublicNavbar /><EventsPage /><Footer /></>} />
-          <Route path="/events/:slug" element={<><PublicNavbar /><EventDetailPage /><Footer /></>} />
-          <Route path="/articles" element={<><PublicNavbar /><ArticlesPage /><Footer /></>} />
-          <Route path="/articles/:slug" element={<><PublicNavbar /><ArticleDetailPage /><Footer /></>} />
-          <Route path="/gallery" element={<><PublicNavbar /><GalleryPage /><Footer /></>} />
-          <Route path="/documentation" element={<><PublicNavbar /><DocumentsPage docType="documentation" title="Dokumentasi" /><Footer /></>} />
-          <Route path="/documentation/:slug" element={<><PublicNavbar /><DocumentDetailPage /><Footer /></>} />
-          <Route path="/activities" element={<><PublicNavbar /><DocumentsPage docType="activity" title="Kegiatan" /><Footer /></>} />
-          <Route path="/activities/:slug" element={<><PublicNavbar /><DocumentDetailPage /><Footer /></>} />
-          <Route path="/reports" element={<><PublicNavbar /><DocumentsPage docType="report" title="Laporan" /><Footer /></>} />
-          <Route path="/reports/:slug" element={<><PublicNavbar /><DocumentDetailPage /><Footer /></>} />
+      <ToastProvider>
+        <LogoProvider>
+          <BrowserRouter>
+            <CustomCursor />
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<><PublicNavbar /><HomePage /><Footer /></>} />
+              <Route path="/about" element={<><PublicNavbar /><AboutPage /><Footer /></>} />
+              <Route path="/philosophy" element={<><PublicNavbar /><PhilosophyPage /><Footer /></>} />
+              <Route path="/events" element={<><PublicNavbar /><EventsPage /><Footer /></>} />
+              <Route path="/events/:slug" element={<><PublicNavbar /><EventDetailPage /><Footer /></>} />
+              <Route path="/articles" element={<><PublicNavbar /><ArticlesPage /><Footer /></>} />
+              <Route path="/articles/:slug" element={<><PublicNavbar /><ArticleDetailPage /><Footer /></>} />
+              <Route path="/gallery" element={<><PublicNavbar /><GalleryPage /><Footer /></>} />
+              <Route path="/documentation" element={<><PublicNavbar /><DocumentsPage docType="documentation" title="Dokumentasi" /><Footer /></>} />
+              <Route path="/documentation/:slug" element={<><PublicNavbar /><DocumentDetailPage /><Footer /></>} />
+              <Route path="/activities" element={<><PublicNavbar /><DocumentsPage docType="activity" title="Kegiatan" /><Footer /></>} />
+              <Route path="/activities/:slug" element={<><PublicNavbar /><DocumentDetailPage /><Footer /></>} />
+              <Route path="/reports" element={<><PublicNavbar /><DocumentsPage docType="report" title="Laporan" /><Footer /></>} />
+              <Route path="/reports/:slug" element={<><PublicNavbar /><DocumentDetailPage /><Footer /></>} />
 
-          {/* Auth Routes */}
-          <Route path="/admin/sign-in" element={<AdminSignIn />} />
-          <Route path="/admin/sign-up" element={<AdminSignUp />} />
+              {/* Auth Routes */}
+              <Route path="/admin/sign-in" element={<AdminSignIn />} />
+              <Route path="/admin/sign-up" element={<AdminSignUp />} />
 
-          {/* Admin Routes */}
-          <Route path="/admin" element={<ProtectedRoute><AdminLayout><AdminDashboard /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/pages" element={<ProtectedRoute><AdminLayout><AdminPages /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/articles" element={<ProtectedRoute><AdminLayout><AdminArticles /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/media" element={<ProtectedRoute><AdminLayout><AdminMedia /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/documents" element={<ProtectedRoute><AdminLayout><AdminDocuments /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/events" element={<ProtectedRoute><AdminLayout><AdminEvents /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/tasks" element={<ProtectedRoute><AdminLayout><AdminTasks /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/members" element={<ProtectedRoute><AdminLayout><AdminMembers /></AdminLayout></ProtectedRoute>} />
-        </Routes>
-      </BrowserRouter>
+              {/* Admin Routes */}
+              <Route path="/admin" element={<ProtectedRoute><AdminLayout><AdminDashboard /></AdminLayout></ProtectedRoute>} />
+              <Route path="/admin/pages" element={<ProtectedRoute><AdminLayout><AdminPages /></AdminLayout></ProtectedRoute>} />
+              <Route path="/admin/articles" element={<ProtectedRoute><AdminLayout><AdminArticles /></AdminLayout></ProtectedRoute>} />
+              <Route path="/admin/media" element={<ProtectedRoute><AdminLayout><AdminMedia /></AdminLayout></ProtectedRoute>} />
+              <Route path="/admin/documents" element={<ProtectedRoute><AdminLayout><AdminDocuments /></AdminLayout></ProtectedRoute>} />
+              <Route path="/admin/events" element={<ProtectedRoute><AdminLayout><AdminEvents /></AdminLayout></ProtectedRoute>} />
+              <Route path="/admin/tasks" element={<ProtectedRoute><AdminLayout><AdminTasks /></AdminLayout></ProtectedRoute>} />
+              <Route path="/admin/members" element={<ProtectedRoute><AdminLayout><AdminMembers /></AdminLayout></ProtectedRoute>} />
+              <Route path="/admin/settings" element={<ProtectedRoute><AdminLayout><AdminSettings /></AdminLayout></ProtectedRoute>} />
+            </Routes>
+          </BrowserRouter>
+        </LogoProvider>
+      </ToastProvider>
     </AuthProvider>
   );
 }
