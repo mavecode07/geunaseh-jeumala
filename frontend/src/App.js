@@ -954,7 +954,6 @@ const PhilosophyPage = () => {
             <AnimatedSection delay={0.2}>
               <div className="flex justify-center">
                 <AnimatedLogo size="hero" />
-                />
               </div>
             </AnimatedSection>
           </div>
@@ -962,23 +961,23 @@ const PhilosophyPage = () => {
       </section>
 
       {/* Values */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-gradient-to-b from-[#012a3a] to-[#010d15]">
         <div className="container-custom">
           <AnimatedSection className="text-center mb-16">
-            <Badge className="mb-4">Nilai-Nilai</Badge>
-            <h2 className="text-4xl font-bold">Nilai-Nilai Inti</h2>
+            <Badge className="mb-4 bg-emerald-500/20 text-emerald-400 border-emerald-500/30">Nilai-Nilai</Badge>
+            <h2 className="text-4xl font-bold text-white">Nilai-Nilai Inti</h2>
           </AnimatedSection>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <Card className="card-hover border-0 shadow-lg h-full">
+                <Card className="card-hover border-0 bg-white/5 backdrop-blur-sm border border-white/10 h-full">
                   <CardContent className="p-6">
                     <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-4`}>
                       <value.icon className="text-white" size={28} />
                     </div>
-                    <h3 className="font-bold text-xl mb-3">{value.title}</h3>
-                    <p className="text-gray-600">{value.desc}</p>
+                    <h3 className="font-bold text-xl mb-3 text-white">{value.title}</h3>
+                    <p className="text-white/60">{value.desc}</p>
                   </CardContent>
                 </Card>
               </AnimatedSection>
@@ -1000,23 +999,23 @@ const EventsPage = () => {
 
   return (
     <PageWrapper>
-      <section className="min-h-[40vh] gradient-hero flex items-center pt-20">
+      <section className="min-h-[40vh] bg-[#010d15] flex items-center pt-32">
         <div className="container-custom">
           <AnimatedSection className="text-center text-white">
-            <Badge className="bg-white/20 text-white mb-6">Events</Badge>
+            <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 mb-6">Events</Badge>
             <h1 className="text-5xl font-bold font-['Playfair_Display']">Event & Kegiatan</h1>
           </AnimatedSection>
         </div>
       </section>
 
-      <section className="py-24">
+      <section className="py-24 bg-gradient-to-b from-[#010d15] to-[#012a3a]">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event, i) => (
               <AnimatedSection key={event.id} delay={i * 0.1}>
                 <Link to={`/events/${event.slug}`}>
-                  <Card className="card-hover overflow-hidden border-0 shadow-lg h-full">
-                    <div className="aspect-video bg-gray-100 overflow-hidden">
+                  <Card className="card-hover overflow-hidden border-0 bg-white/5 backdrop-blur-sm border border-white/10 h-full">
+                    <div className="aspect-video bg-black/20 overflow-hidden">
                       <img 
                         src={event.bannerImage || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800"} 
                         alt={event.title}
@@ -1025,20 +1024,20 @@ const EventsPage = () => {
                     </div>
                     <CardContent className="p-6">
                       <div className="flex items-center gap-2 mb-3">
-                        <Badge variant="outline">
+                        <Badge variant="outline" className="border-cyan-500/50 text-cyan-400">
                           <Calendar size={12} className="mr-1" />
                           {event.date}
                         </Badge>
                         {event.capacity > 0 && (
-                          <Badge variant="secondary">{event.capacity} peserta</Badge>
+                          <Badge className="bg-white/10 text-white/80">{event.capacity} peserta</Badge>
                         )}
                       </div>
-                      <h3 className="font-semibold text-xl mb-2">{event.title}</h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                      <h3 className="font-semibold text-xl mb-2 text-white">{event.title}</h3>
+                      <div className="flex items-center gap-2 text-sm text-white/60 mb-2">
                         <Clock size={14} />
                         {event.time || "TBA"}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <div className="flex items-center gap-2 text-sm text-white/60">
                         <MapPin size={14} />
                         {event.location || "TBA"}
                       </div>
