@@ -215,6 +215,7 @@ const CustomCursor = () => {
 
 // Animated Logo Component
 const AnimatedLogo = ({ size = "md", className = "" }) => {
+  const { logoUrl } = useLogo() || { logoUrl: DEFAULT_LOGO };
   const sizes = {
     sm: "w-10 h-10",
     md: "w-14 h-14",
