@@ -8,7 +8,8 @@ import {
   Menu, X, Home, Users, FileText, Calendar, Image, Settings, LogOut, 
   ChevronRight, Clock, MapPin, Mail, Phone, Building, Plus, Edit, Trash2,
   CheckCircle, Circle, AlertCircle, Search, Filter, Download, Eye, BookOpen,
-  Activity, FileCheck, Star, Heart, Target, Award, Sparkles, ArrowRight
+  Activity, FileCheck, Star, Heart, Target, Award, Sparkles, ArrowRight, Upload,
+  Inbox, ImageIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +26,74 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
-const LOGO_URL = "https://customer-assets.emergentagent.com/job_13832b27-906b-4dfc-9ff8-e595f672e269/artifacts/4fuy2199_logo-removebg-preview.png";
+const DEFAULT_LOGO = "https://customer-assets.emergentagent.com/job_13832b27-906b-4dfc-9ff8-e595f672e269/artifacts/4fuy2199_logo-removebg-preview.png";
+
+// Toast Context for notifications
+const ToastContext = createContext(null);
+
+const ToastProvider = ({ children }) => {
+  const [toasts, setToasts] = useState([]);
+  
+  const addToast = (message, type = "success") => {
+    const id = Date.now();
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000);
+  };
+  
+  return (
+    <ToastContext.Provider value={{ addToast }}>
+      {children}
+      {/* Toast Container */}
+      <div className="fixed bottom-4 right-4 z-[9999] space-y-2">
+        <AnimatePresence>
+          {toasts.map(toast => (
+            <motion.div
+              key={toast.id}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 100 }}
+              className={`px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 min-w-[250px] ${
+                toast.type === "success" ? "bg-emerald-500 text-white" :
+                toast.type === "error" ? "bg-red-500 text-white" :
+                "bg-gray-800 text-white"
+              }`}
+            >
+              {toast.type === "success" ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+              {toast.message}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+    </ToastContext.Provider>
+  );
+};
+
+const useToast = () => useContext(ToastContext);
+
+// Logo Context for dynamic logo
+const LogoContext = createContext(null);
+
+const LogoProvider = ({ children }) => {
+  const [logoUrl, setLogoUrl] = useState(DEFAULT_LOGO);
+  
+  useEffect(() => {
+    axios.get(`${API}/settings/logo`).then(res => {
+      if (res.data?.logoUrl) setLogoUrl(res.data.logoUrl);
+    }).catch(() => {});
+  }, []);
+  
+  const updateLogo = async (url) => {
+    setLogoUrl(url);
+  };
+  
+  return (
+    <LogoContext.Provider value={{ logoUrl, updateLogo, DEFAULT_LOGO }}>
+      {children}
+    </LogoContext.Provider>
+  );
+};
+
+const useLogo = () => useContext(LogoContext);
 
 // Auth Context
 const AuthContext = createContext(null);
