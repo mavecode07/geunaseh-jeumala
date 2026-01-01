@@ -325,25 +325,25 @@ const PublicNavbar = () => {
 
 // Footer
 const Footer = () => (
-  <footer className="gradient-primary text-white py-16">
+  <footer className="bg-[#010d15] text-white py-16 border-t border-white/10">
     <div className="container-custom">
       <div className="grid md:grid-cols-4 gap-12">
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <img src={LOGO_URL} alt="Logo" className="h-12 w-12 object-contain" />
+            <AnimatedLogo size="sm" />
             <span className="font-bold text-xl">Geunaseh Jeumala</span>
           </div>
-          <p className="text-white/70 text-sm">
-            Bersama membangun generasi berilmu dan berakhlak mulia.
+          <p className="text-white/60 text-sm leading-relaxed">
+            Merangkul langit dengan kasih sayang, membangun generasi berilmu dan berakhlak mulia.
           </p>
         </div>
         
         <div>
-          <h4 className="font-semibold mb-4">Navigasi</h4>
-          <ul className="space-y-2 text-sm text-white/70">
-            <li><Link to="/" className="hover:text-white transition-colors">Beranda</Link></li>
-            <li><Link to="/about" className="hover:text-white transition-colors">Tentang</Link></li>
-            <li><Link to="/events" className="hover:text-white transition-colors">Event</Link></li>
+          <h4 className="font-semibold mb-4 text-cyan-400">Navigasi</h4>
+          <ul className="space-y-2 text-sm text-white/60">
+            <li><Link to="/" className="hover:text-cyan-400 transition-colors">Beranda</Link></li>
+            <li><Link to="/about" className="hover:text-cyan-400 transition-colors">Tentang</Link></li>
+            <li><Link to="/events" className="hover:text-cyan-400 transition-colors">Event</Link></li>
             <li><Link to="/articles" className="hover:text-white transition-colors">Artikel</Link></li>
           </ul>
         </div>
