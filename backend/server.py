@@ -420,6 +420,14 @@ async def create_media(media_data: MediaCreate, current_user: dict = Depends(get
     media_dict.pop("_id", None)
     return media_dict
 
+@api_router.put("/media/{media_id}")
+async def update_media(media_id: str, media_data: MediaCreate, current_user: dict = Depends(get_current_user)):
+    update_dict = media_data.model_dump()
+    result = await db.media.update_one({"id": media_id}, {"$set": update_dict})
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Media not found")
+    return {"success": True}
+
 @api_router.delete("/media/{media_id}")
 async def delete_media(media_id: str, current_user: dict = Depends(get_current_user)):
     result = await db.media.delete_one({"id": media_id})
