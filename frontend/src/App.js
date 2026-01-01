@@ -1570,7 +1570,7 @@ const AdminLayout = ({ children }) => {
       }`}>
         <div className="p-6">
           <Link to="/" className="flex items-center gap-3 mb-8">
-            <img src={LOGO_URL} alt="Logo" className="h-10 w-10 object-contain" />
+            <img src={logoUrl} alt="Logo" className="h-10 w-10 object-contain" />
             <span className="font-bold text-white">Admin Panel</span>
           </Link>
 
@@ -1676,7 +1676,7 @@ const AdminSignIn = () => {
       >
         <Card className="border-0 shadow-2xl">
           <CardHeader className="text-center">
-            <img src={LOGO_URL} alt="Logo" className="h-16 w-16 mx-auto mb-4" />
+            <img src={logoUrl} alt="Logo" className="h-16 w-16 mx-auto mb-4" />
             <CardTitle className="text-2xl">Admin Login</CardTitle>
             <CardDescription>Masuk ke dashboard admin</CardDescription>
           </CardHeader>
@@ -1766,7 +1766,7 @@ const AdminSignUp = () => {
       >
         <Card className="border-0 shadow-2xl">
           <CardHeader className="text-center">
-            <img src={LOGO_URL} alt="Logo" className="h-16 w-16 mx-auto mb-4" />
+            <img src={logoUrl} alt="Logo" className="h-16 w-16 mx-auto mb-4" />
             <CardTitle className="text-2xl">Daftar Admin</CardTitle>
             <CardDescription>Buat akun admin baru</CardDescription>
           </CardHeader>
