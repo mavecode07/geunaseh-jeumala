@@ -1930,6 +1930,7 @@ const AdminDashboard = () => {
 // Admin CRUD Component (Generic)
 const AdminCRUD = ({ title, endpoint, fields, renderItem }) => {
   const { token } = useAuth();
+  const toast = useToast();
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({});
   const [editingId, setEditingId] = useState(null);
@@ -1957,8 +1958,10 @@ const AdminCRUD = ({ title, endpoint, fields, renderItem }) => {
     try {
       if (editingId) {
         await axios.put(`${API}/${endpoint}/${editingId}`, formData, { headers });
+        toast?.addToast("Data berhasil diupdate!", "success");
       } else {
         await axios.post(`${API}/${endpoint}`, formData, { headers });
+        toast?.addToast("Data berhasil ditambahkan!", "success");
       }
       fetchItems();
       setDialogOpen(false);
@@ -1966,7 +1969,7 @@ const AdminCRUD = ({ title, endpoint, fields, renderItem }) => {
       setEditingId(null);
     } catch (e) {
       console.error(e);
-      alert("Gagal menyimpan data");
+      toast?.addToast("Gagal menyimpan data", "error");
     }
     setLoading(false);
   };
@@ -1981,10 +1984,11 @@ const AdminCRUD = ({ title, endpoint, fields, renderItem }) => {
     if (!window.confirm("Yakin ingin menghapus?")) return;
     try {
       await axios.delete(`${API}/${endpoint}/${id}`, { headers });
+      toast?.addToast("Data berhasil dihapus!", "success");
       fetchItems();
     } catch (e) {
       console.error(e);
-      alert("Gagal menghapus data");
+      toast?.addToast("Gagal menghapus data", "error");
     }
   };
 
