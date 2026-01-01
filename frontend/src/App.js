@@ -2062,7 +2062,13 @@ const AdminCRUD = ({ title, endpoint, fields, renderItem }) => {
         <CardContent className="p-0">
           <div className="divide-y">
             {items.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">Belum ada data</div>
+              <div className="p-12 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                  <Inbox className="text-gray-400" size={32} />
+                </div>
+                <p className="text-gray-500 mb-2">Belum ada {title.toLowerCase()}</p>
+                <p className="text-gray-400 text-sm">Klik tombol "Tambah" untuk menambahkan data baru</p>
+              </div>
             ) : (
               items.map((item) => (
                 <div key={item.id} className="p-4 flex justify-between items-center hover:bg-gray-50">
