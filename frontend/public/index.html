@@ -47,6 +47,24 @@
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
+        <style>
+            /* Hide Emergent watermark */
+            body > a[href*="emergent"],
+            body > div:not(#root):has(img[src*="emergent"]),
+            body > div:not(#root):has(p:contains("Emergent")),
+            a[href*="emergent.sh"][style*="fixed"],
+            [style*="Made with"],
+            body > a[style*="fixed"] {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                width: 0 !important;
+                height: 0 !important;
+                overflow: hidden !important;
+                position: absolute !important;
+                left: -9999px !important;
+            }
+        </style>
         <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
