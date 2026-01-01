@@ -48,24 +48,21 @@
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
         <style>
-            /* Hide Emergent watermark - cover with overlay */
+            /* Hide Emergent watermark - cover with matching background */
             body::after {
                 content: '';
                 position: fixed;
                 bottom: 0;
                 left: 0;
-                width: 200px;
-                height: 40px;
-                background: #0a0a0a;
+                width: 250px;
+                height: 50px;
+                background: linear-gradient(to right, #010d15 0%, #010d15 80%, transparent 100%);
                 z-index: 999999;
                 pointer-events: none;
             }
-            /* Also try direct hiding */
             body > a[href*="emergent"],
             body > a[style*="fixed"],
-            body > a:not([class]),
-            a[href*="emergent.sh"],
-            [style*="Made with"] {
+            a[href*="emergent.sh"] {
                 display: none !important;
                 visibility: hidden !important;
                 opacity: 0 !important;
@@ -79,14 +76,10 @@
         <script>
             function hideWatermark() {
                 document.querySelectorAll('a[href*="emergent"]').forEach(el => {
-                    el.style.cssText = 'display:none!important;visibility:hidden!important;opacity:0!important;position:absolute!important;left:-9999px!important;';
+                    el.style.cssText = 'display:none!important;visibility:hidden!important;opacity:0!important;';
                 });
             }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', hideWatermark);
-            } else {
-                hideWatermark();
-            }
+            document.addEventListener('DOMContentLoaded', hideWatermark);
             setInterval(hideWatermark, 100);
             new MutationObserver(hideWatermark).observe(document.body, {childList: true, subtree: true});
         </script>
