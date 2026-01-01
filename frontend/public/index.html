@@ -48,41 +48,43 @@
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
         <style>
-            /* Hide Emergent watermark - cover with matching background */
-            body::after {
-                content: '';
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 250px;
-                height: 60px;
-                background: #000 !important;
-                z-index: 2147483647 !important;
-                pointer-events: none;
-            }
-            body > a[href*="emergent"],
-            body > a[style*="fixed"],
-            a[href*="emergent.sh"] {
+            /* Global watermark override - all devices */
+            a[href*="emergent.sh"],
+            a[href*="emergent"][style*="fixed"],
+            a[href*="emergent"][style*="position"],
+            body > a:not([class]):not([id]),
+            [style*="Made with"] {
                 display: none !important;
                 visibility: hidden !important;
                 opacity: 0 !important;
-                z-index: -1 !important;
+                width: 0 !important;
+                height: 0 !important;
+                font-size: 0 !important;
+                line-height: 0 !important;
+                overflow: hidden !important;
+                clip: rect(0,0,0,0) !important;
+                position: absolute !important;
+                left: -99999px !important;
+                top: -99999px !important;
             }
-            #root {
-                display: block !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-            }
+            #root { display: block !important; }
         </style>
         <script>
-            function hideWatermark() {
-                document.querySelectorAll('a[href*="emergent"]').forEach(el => {
-                    el.style.cssText = 'display:none!important;visibility:hidden!important;opacity:0!important;z-index:-1!important;';
-                });
-            }
-            document.addEventListener('DOMContentLoaded', hideWatermark);
-            setInterval(hideWatermark, 50);
-            new MutationObserver(hideWatermark).observe(document.body, {childList: true, subtree: true});
+            (function(){
+                var hide = function(){
+                    var els = document.querySelectorAll('a[href*="emergent"]');
+                    for(var i=0;i<els.length;i++){
+                        els[i].style.cssText='display:none!important;visibility:hidden!important;opacity:0!important;width:0!important;height:0!important;position:absolute!important;left:-99999px!important;';
+                    }
+                };
+                hide();
+                document.addEventListener('DOMContentLoaded',hide);
+                window.addEventListener('load',hide);
+                setInterval(hide,50);
+                if(window.MutationObserver){
+                    new MutationObserver(hide).observe(document.documentElement,{childList:true,subtree:true});
+                }
+            })();
         </script>
         <!--
       This HTML file is a template.
