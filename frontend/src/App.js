@@ -1,7 +1,9 @@
 useEffect(() => {
   fetchItems();
-}, [fetchItems]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
 useEffect(() => {
   fetchTasks();
-}, [fetchTasks]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
