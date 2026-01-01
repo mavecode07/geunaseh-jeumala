@@ -245,7 +245,7 @@ const AnimatedLogo = ({ size = "md", className = "" }) => {
       <div className="relative w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-[#012a3a] to-[#013220] p-1">
         <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-[#013220]/50 to-[#005f73]/50 flex items-center justify-center">
           <img 
-            src={LOGO_URL} 
+            src={logoUrl} 
             alt="Logo" 
             className="w-[85%] h-[85%] object-contain"
           />
