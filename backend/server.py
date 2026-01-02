@@ -6,19 +6,18 @@ import uvicorn
 
 app = FastAPI(title="Geunaseh Jeumala Backend", version="1.0.0")
 
-# CORS
+# ===== CORS =====
 origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins,      # frontend Netlify akan diizinkan
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-# ==== AUTH ====
+# ===== AUTH =====
 
 class LoginRequest(BaseModel):
     username: str
@@ -48,7 +47,7 @@ async def login(payload: LoginRequest):
     return TokenResponse(access_token="dummy-token")
 
 
-# ==== GENERIC ENTITY MODELS (IN-MEMORY, DEMO) ====
+# ===== GENERIC ENTITY CRUD (IN-MEMORY DEMO) =====
 
 class BaseEntity(BaseModel):
     id: int
