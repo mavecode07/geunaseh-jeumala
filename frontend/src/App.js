@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 function App() {
   useEffect(() => {
-    console.log("jalan");
+    console.log("React jalan");
   }, []);
 
   return (
