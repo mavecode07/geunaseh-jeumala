@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 
-export default function App() {
+function App() {
   useEffect(() => {
-    console.log("App jalan");
+    console.log("App mounted");
   }, []);
 
-  return <div>App jalan</div>;
+  return <div>Website jalan</div>;
 }
+
+export default App;
