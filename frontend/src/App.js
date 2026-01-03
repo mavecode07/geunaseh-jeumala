@@ -1,9 +1,14 @@
-// eslint-disable-next-line react-hooks/exhaustive-deps
-useEffect(() => {
-  fetchItems();
-}, []);
+import { useEffect } from "react";
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
-useEffect(() => {
-  fetchTasks();
-}, []);
+export default function App() {
+
+  useEffect(() => {
+    fetchItems?.();
+  }, []);
+
+  useEffect(() => {
+    fetchTasks?.();
+  }, []);
+
+  return <div>App jalan</div>;
+}
