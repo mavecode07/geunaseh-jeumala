@@ -3,11 +3,15 @@ import { useEffect } from "react";
 export default function App() {
 
   useEffect(() => {
-    fetchItems?.();
+    if (typeof fetchItems === "function") {
+      fetchItems();
+    }
   }, []);
 
   useEffect(() => {
-    fetchTasks?.();
+    if (typeof fetchTasks === "function") {
+      fetchTasks();
+    }
   }, []);
 
   return <div>App jalan</div>;
