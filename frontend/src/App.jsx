@@ -1,5 +1,11 @@
-useEffect(() => {
-  document.querySelectorAll('a[href*="emergent"]').forEach(el => {
-    el.remove()
-  })
-}, [])
+import { useEffect } from "react"
+
+function App() {
+  useEffect(() => {
+    console.log("App mounted")
+  }, [])
+
+  return <div>Hello from App.jsx</div>
+}
+
+export default App
