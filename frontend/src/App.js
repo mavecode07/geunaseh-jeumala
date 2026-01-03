@@ -1,14 +1,20 @@
 import { useEffect } from "react";
 
-export default function App() {
+function App() {
 
   useEffect(() => {
-    fetchItems?.();
+    fetchItems();
   }, []);
 
   useEffect(() => {
-    fetchTasks?.();
+    fetchTasks();
   }, []);
 
-  return <div>App jalan</div>;
+  return (
+    <div>
+      App jalan
+    </div>
+  );
 }
+
+export default App;
