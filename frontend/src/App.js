@@ -1,9 +1,11 @@
-// eslint-disable-next-line react-hooks/exhaustive-deps
-useEffect(() => {
-  fetchItems();
-}, []);
+import { useEffect } from "react"
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
-useEffect(() => {
-  fetchTasks();
-}, []);
+function App() {
+  useEffect(() => {
+    console.log("App mounted")
+  }, [])
+
+  return <div>Hello</div>
+}
+
+export default App
